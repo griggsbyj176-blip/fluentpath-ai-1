@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabaseClient";
@@ -9,23 +9,42 @@ export default function LoginPage() {
 
   async function login() {
     const supabase = createClient();
-    const origin = location.origin;
+    const origin = window.location.origin;
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${origin}/dashboard` },
     });
+
     if (error) alert(error.message);
     else setSent(true);
   }
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-950 p-6 text-white">
-      <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-8">
-        <h1 className="text-3xl font-bold">Log in</h1>
-        <p className="mt-2 text-slate-400">Get a magic link.</p>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} className="mt-6 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3" placeholder="you@email.com" />
-        <button onClick={login} className="mt-4 w-full rounded-2xl bg-emerald-400 py-3 font-semibold text-slate-950">Send magic link</button>
-        {sent && <p className="mt-4 text-sm text-emerald-300">Check your email.</p>}
+      <div className="w-full max-w-md space-y-4">
+        <h1 className="text-2xl font-bold">Login</h1>
+
+        {sent ? (
+          <p>Check your email for the login link.</p>
+        ) : (
+          <>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded p-2 text-black"
+            />
+
+            <button
+              onClick={login}
+              className="w-full rounded bg-green-500 p-2 text-black font-semibold"
+            >
+              Send login link
+            </button>
+          </>
+        )}
       </div>
     </main>
   );

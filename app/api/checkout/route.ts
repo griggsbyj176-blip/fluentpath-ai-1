@@ -27,11 +27,11 @@ export async function POST() {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error("CHECKOUT_ERROR:", error);
-
+  } catch (error: any) {
     return NextResponse.json(
-      { error: "Stripe checkout failed. Check Vercel logs." },
+      {
+        error: error?.message || "Unknown Stripe error",
+      },
       { status: 500 }
     );
   }

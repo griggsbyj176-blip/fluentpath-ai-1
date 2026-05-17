@@ -1,6 +1,21 @@
 "use client";
 
 export default function Home() {
+  async function startCheckout() {
+    const response = await fetch("/api/checkout", {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    if (!data.url) {
+      alert("Checkout failed. Go to Vercel Logs to see the Stripe error.");
+      return;
+    }
+
+    window.location.href = data.url;
+  }
+
   return (
     <main className="min-h-screen bg-slate-950 text-white px-6">
       <section className="text-center py-20">
@@ -14,15 +29,7 @@ export default function Home() {
         </p>
 
         <button
-          onClick={async () => {
-            const response = await fetch("/api/checkout", {
-              method: "POST",
-            });
-
-            const data = await response.json();
-
-            window.location.href = data.url;
-          }}
+          onClick={startCheckout}
           className="inline-block bg-emerald-400 text-black px-8 py-4 rounded-xl font-bold text-lg"
         >
           Start fixing your Spanish

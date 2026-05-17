@@ -6,30 +6,30 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST() {
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
+      mode: "subscription",
+
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Test Product",
-            },
-            unit_amount: 500,
-          },
+          price: "price_1TSR8TC4qFO2g0NbZY2Jmlzw",
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel",
+
+      success_url:
+        "https://fluentpath-ai-1-gk92.vercel.app/success",
+
+      cancel_url:
+        "https://fluentpath-ai-1-gk92.vercel.app/cancel",
     });
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({
+      url: session.url,
+    });
   } catch (error) {
     console.error(error);
 
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Stripe checkout failed" },
       { status: 500 }
     );
   }

@@ -7,29 +7,26 @@ export async function POST() {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-
       line_items: [
         {
           price: "price_1TSR8TC4qFO2g0NbZY2Jmlzw",
           quantity: 1,
         },
       ],
-
-      success_url:
-        "https://fluentpath-ai-1-gk92.vercel.app/success",
-
-      cancel_url:
-        "https://fluentpath-ai-1-gk92.vercel.app/cancel",
+      success_url: "https://fluentpath-ai-1-gk92.vercel.app/success",
+      cancel_url: "https://fluentpath-ai-1-gk92.vercel.app/cancel",
     });
 
-    return NextResponse.json({
-      url: session.url,
-    });
+    if (!session.url) {
+      throw new Error("Stripe did not return a checkout URL");
+    }
+
+    return NextResponse.json({ url: session.url });
   } catch (error) {
-    console.error(error);
+    console.error("CHECKOUT_ERROR:", error);
 
     return NextResponse.json(
-      { error: "Stripe checkout failed" },
+      { error: "Checkout failed" },
       { status: 500 }
     );
   }

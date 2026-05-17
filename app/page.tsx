@@ -12,7 +12,7 @@ export default function Home() {
         </p>
 
         <a
-          href="PASTE_NEW_MONTHLY_STRIPE_LINK_HERE"
+          href="https://buy.stripe.com/4gM00ieOX4BrfJb2Xr6sw03"
           className="inline-block bg-emerald-400 text-black px-8 py-4 rounded-xl font-bold text-lg"
         >
           Start fixing your Spanish

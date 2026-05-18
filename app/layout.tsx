@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import "./globals.css";
-export const metadata = {
-  title: "Fix your Spanish instantly",
-  description: "Instant Spanish corrections with AI",
+
+export const metadata: Metadata = {
+  title: "FluentPath AI",
+  description: "Fix your Spanish instantly with AI corrections, explanations, and natural rewrites.",
+  manifest: "/manifest.json",
+  themeColor: "#020617",
 };
 
 export default function RootLayout({

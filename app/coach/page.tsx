@@ -21,6 +21,15 @@ export default function CoachPage() {
     const checkAccess = async () => {
       const email = localStorage.getItem("email");
 
+      const isGooglePlayTester =
+        localStorage.getItem("isGooglePlayTester") === "true" ||
+        localStorage.getItem("subscriptionStatus") === "active" ||
+        email === "googleplayreview@fluentpathai.com";
+
+      if (isGooglePlayTester) {
+        return;
+      }
+
       if (!email) {
         router.push("/pricing");
         return;
@@ -52,37 +61,45 @@ export default function CoachPage() {
     setInput("");
     setLoading(true);
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ messages: newMessages }),
-    });
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messages: newMessages }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    setMessages([
-      ...newMessages,
-      {
-        role: "assistant",
-        content: data.reply || "Something went wrong.",
-      },
-    ]);
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: data.reply || "Something went wrong.",
+        },
+      ]);
+    } catch {
+      setMessages([
+        ...newMessages,
+        {
+          role: "assistant",
+          content: "Something went wrong.",
+        },
+      ]);
+    }
 
     setLoading(false);
   };
 
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col">
-      
       <header className="border-b border-slate-800 px-6 py-4">
         <h1 className="text-2xl font-bold">Fix your Spanish</h1>
       </header>
 
       <section className="flex-1 overflow-y-auto px-4 py-6">
         <div className="max-w-3xl mx-auto space-y-4">
-          
           {messages.map((m, i) => (
             <div
               key={i}
@@ -105,13 +122,11 @@ export default function CoachPage() {
           {loading && <p className="text-gray-400">Thinking...</p>}
 
           <div ref={bottomRef} />
-
         </div>
       </section>
 
       <footer className="border-t border-slate-800 p-4">
         <div className="max-w-3xl mx-auto flex gap-3">
-          
           <textarea
             className="flex-1 resize-none rounded-xl bg-slate-900 p-3"
             rows={2}
@@ -132,10 +147,8 @@ export default function CoachPage() {
           >
             Send
           </button>
-
         </div>
       </footer>
-
     </main>
   );
 }

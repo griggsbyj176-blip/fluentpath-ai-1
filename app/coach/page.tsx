@@ -2,31 +2,34 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { supabase } from "@/lib/supabaseClient";
+
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 export default function CoachPage() {
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<any[]>([
+  const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hola 👋 Send me a sentence and I’ll fix it.",
+      content: "Hola. Send me a sentence and I’ll fix it.",
     },
   ]);
   const [loading, setLoading] = useState(false);
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const checkAccess = async () => {
       const email = localStorage.getItem("email");
+      const isGooglePlayTester = localStorage.getItem("isGooglePlayTester");
 
-      const isGooglePlayTester =
-        localStorage.getItem("isGooglePlayTester") === "true" ||
-        localStorage.getItem("subscriptionStatus") === "active" ||
-        email === "googleplayreview@fluentpathai.com";
-
-      if (isGooglePlayTester) {
+      if (isGooglePlayTester === "true") {
         return;
       }
 
@@ -51,10 +54,52 @@ export default function CoachPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
+  function speakText(text: string, index: number) {
+    if (!text.trim()) {
+      alert("There is no text to speak yet.");
+      return;
+    }
+
+    if (!("speechSynthesis" in window)) {
+      alert("Voice is not supported on this device.");
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const message = new SpeechSynthesisUtterance(text);
+    message.lang = "es-ES";
+    message.rate = 0.9;
+    message.pitch = 1;
+
+    message.onstart = () => {
+      setSpeakingIndex(index);
+    };
+
+    message.onend = () => {
+      setSpeakingIndex(null);
+    };
+
+    message.onerror = () => {
+      setSpeakingIndex(null);
+    };
+
+    window.speechSynthesis.speak(message);
+  }
+
+  function stopVoice() {
+    window.speechSynthesis.cancel();
+    setSpeakingIndex(null);
+  }
+
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
-    const userMessage = { role: "user", content: input.trim() };
+    const userMessage: Message = {
+      role: "user",
+      content: input.trim(),
+    };
+
     const newMessages = [...messages, userMessage];
 
     setMessages(newMessages);
@@ -79,17 +124,17 @@ export default function CoachPage() {
           content: data.reply || "Something went wrong.",
         },
       ]);
-    } catch {
+    } catch (error) {
       setMessages([
         ...newMessages,
         {
           role: "assistant",
-          content: "Something went wrong.",
+          content: "Something went wrong. Please try again.",
         },
       ]);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -114,7 +159,19 @@ export default function CoachPage() {
                     : "bg-slate-800 text-white"
                 }`}
               >
-                {m.content}
+                <p>{m.content}</p>
+
+                {m.role === "assistant" && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      speakingIndex === i ? stopVoice() : speakText(m.content, i)
+                    }
+                    className="mt-3 rounded-lg border border-slate-600 px-3 py-2 text-sm font-semibold text-white"
+                  >
+                    {speakingIndex === i ? "Stop voice" : "🔊 Hear answer"}
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -142,8 +199,9 @@ export default function CoachPage() {
           />
 
           <button
+            type="button"
             onClick={sendMessage}
-            className="bg-emerald-400 text-black px-6 rounded-xl"
+            className="bg-emerald-400 text-black px-6 rounded-xl font-bold"
           >
             Send
           </button>

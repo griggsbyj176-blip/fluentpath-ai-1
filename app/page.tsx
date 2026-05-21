@@ -29,45 +29,43 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white px-6 flex items-center justify-center">
-      <section className="text-center max-w-2xl">
-        <h1 className="text-5xl font-extrabold mb-6">
+    <main className="min-h-screen bg-slate-950 text-white px-4 sm:px-6 flex items-center justify-center py-16">
+      <section className="text-center w-full max-w-2xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 sm:mb-6 leading-tight">
           Fix your Spanish instantly
         </h1>
 
-        <p className="text-xl text-slate-300 mb-10">
+        <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-8 sm:mb-10 leading-relaxed px-2 sm:px-0">
           Type any Spanish sentence and get corrections, explanations, and a
           better natural version in seconds.
         </p>
 
-        <button
-          type="button"
-          onClick={continueAsGoogleTester}
-          className="inline-block bg-white text-black px-8 py-4 rounded-xl font-bold text-lg mb-4"
-        >
-          Continue as Google Play tester
-        </button>
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
+          <button
+            type="button"
+            onClick={continueAsGoogleTester}
+            className="w-full sm:w-auto bg-white text-black px-6 py-4 rounded-xl font-bold text-base sm:text-lg active:scale-95 transition-transform"
+          >
+            Continue as Google Play tester
+          </button>
 
-        <br />
+          <button
+            type="button"
+            onClick={hearSpanishDemo}
+            className="w-full sm:w-auto border border-slate-600 text-white px-6 py-4 rounded-xl font-bold text-base sm:text-lg active:scale-95 transition-transform"
+          >
+            🔊 Hear Spanish demo
+          </button>
 
-        <button
-          type="button"
-          onClick={hearSpanishDemo}
-          className="inline-block border border-slate-600 text-white px-8 py-4 rounded-xl font-bold text-lg mb-4"
-        >
-          🔊 Hear Spanish demo
-        </button>
+          <a
+            href="/pricing"
+            className="w-full sm:w-auto bg-emerald-400 text-black px-6 py-4 rounded-xl font-bold text-base sm:text-lg text-center active:scale-95 transition-transform"
+          >
+            Start fixing your Spanish
+          </a>
+        </div>
 
-        <br />
-
-        <a
-          href="/pricing"
-          className="inline-block bg-emerald-400 text-black px-8 py-4 rounded-xl font-bold text-lg"
-        >
-          Start fixing your Spanish
-        </a>
-
-        <p className="mt-4 text-sm text-slate-500">
+        <p className="mt-5 text-sm text-slate-500">
           $12/month · Cancel anytime
         </p>
       </section>

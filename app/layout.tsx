@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description: "Fix your Spanish instantly with AI corrections, explanations, and natural rewrites.",
   manifest: "/manifest.json",
   themeColor: "#020617",
+  icons: { icon: "/favicon.svg" },
 };
 
 export default function RootLayout({

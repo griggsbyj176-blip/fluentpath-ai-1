@@ -1,5 +1,7 @@
 "use client";
 
+import Logo from "@/components/Logo";
+
 export default function Home() {
   const continueAsGoogleTester = () => {
     localStorage.setItem("email", "googleplayreview@fluentpathai.com");
@@ -31,6 +33,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white px-4 sm:px-6 flex items-center justify-center py-16">
       <section className="text-center w-full max-w-2xl mx-auto">
+        <div className="flex justify-center mb-8">
+          <Logo size="lg" />
+        </div>
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 sm:mb-6 leading-tight">
           Fix your Spanish instantly
         </h1>

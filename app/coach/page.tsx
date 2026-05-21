@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { supabase } from "@/lib/supabaseClient";
+import Logo from "@/components/Logo";
 
 type Message = {
   role: "user" | "assistant";
@@ -140,7 +141,7 @@ export default function CoachPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white flex flex-col">
       <header className="border-b border-slate-800 px-6 py-4">
-        <h1 className="text-2xl font-bold">Fix your Spanish</h1>
+        <Logo size="md" />
       </header>
 
       <section className="flex-1 overflow-y-auto px-4 py-6">

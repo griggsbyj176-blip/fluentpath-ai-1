@@ -24,7 +24,7 @@ Bullets:
 
 Pricing:
 Free — $0
-AI Coach — $12/month
+AI Coach — $5.99/month
 Fluency Pro — $29/month
 
 Guarantee:

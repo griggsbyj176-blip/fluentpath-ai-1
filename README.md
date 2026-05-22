@@ -48,7 +48,7 @@ Enable email magic-link auth in Supabase.
 ## 4. Stripe
 
 Create two recurring prices:
-- AI Coach: $12/month
+- AI Coach: $5.99/month
 - Fluency Pro: $29/month
 
 Add price IDs to `.env.local`.
@@ -92,7 +92,7 @@ Free:
 - 5 AI chats/day
 - Basic lessons
 
-AI Coach — $12/month:
+AI Coach — $5.99/month:
 - Unlimited AI chat
 - Conversation practice
 - Saved progress

@@ -68,7 +68,7 @@ export default function Home() {
         </a>
 
         <p className="mt-4 text-sm text-slate-500">
-          $12/month · Cancel anytime
+          $5.99/month · Cancel anytime
         </p>
       </section>
     </main>

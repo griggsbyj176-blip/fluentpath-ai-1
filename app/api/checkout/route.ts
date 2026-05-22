@@ -14,6 +14,15 @@ export async function POST() {
       );
     }
 
+    const priceId = process.env.STRIPE_AI_COACH_PRICE_ID;
+
+    if (!priceId) {
+      return NextResponse.json(
+        { error: "Missing STRIPE_AI_COACH_PRICE_ID" },
+        { status: 500 }
+      );
+    }
+
     const stripe = new Stripe(secretKey);
 
     const session = await stripe.checkout.sessions.create({
@@ -23,7 +32,7 @@ export async function POST() {
 
       line_items: [
         {
-          price: "price_1TSR8TC4qFO2g0NbZY2Jmlzw",
+          price: priceId,
           quantity: 1,
         },
       ],

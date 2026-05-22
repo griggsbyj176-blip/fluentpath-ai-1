@@ -26,8 +26,12 @@ export default function PricingPage() {
             7-day free trial
           </p>
 
+          <p className="text-2xl font-bold text-emerald-400 mb-1">
+            Then just $5.99/month
+          </p>
+
           <p className="text-slate-400">
-            Then $12/month · Cancel anytime
+            Less than a coffee · Cancel anytime
           </p>
         </div>
 

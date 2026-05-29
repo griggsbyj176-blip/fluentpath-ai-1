@@ -1,0 +1,57 @@
+name: Build Between Us (APK + AAB)
+
+on:
+  workflow_dispatch:   # run manually from the Actions tab
+  push:
+    branches: [ claude/gallant-maxwell-gIfMM ]
+    paths:
+      - 'between-us/**'
+      - '.github/workflows/build-betweenus-aab.yml'
+
+defaults:
+  run:
+    working-directory: between-us
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies & sync Capacitor
+        run: |
+          npm install
+          npx cap sync android
+
+      - name: Build signed APK + AAB
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease bundleRelease
+
+      - name: Upload APK (installable on phones)
+        uses: actions/upload-artifact@v4
+        with:
+          name: between-us-apk
+          path: between-us/android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload AAB (for Google Play upload)
+        uses: actions/upload-artifact@v4
+        with:
+          name: between-us-aab
+          path: between-us/android/app/build/outputs/bundle/release/app-release.aab

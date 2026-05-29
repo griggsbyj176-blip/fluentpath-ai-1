@@ -14,6 +14,7 @@ AI Spanish tutor for frustrated Duolingo users.
 - Supabase schema
 - TikTok scripts
 - Landing page copy
+- Android App Bundle setup (Capacitor) for Google Play
 
 ## 1. Install
 
@@ -101,6 +102,30 @@ Fluency Pro — $29/month:
 - Voice practice
 - Career/travel roleplays
 - Weekly fluency report
+
+## Android / Google Play
+
+FluentPath AI uses [Capacitor](https://capacitorjs.com/) to wrap the Next.js static export as a native Android app.
+
+### Quick start
+
+```bash
+# 1. Install dependencies (includes Capacitor)
+npm install
+
+# 2. Add Android platform (first time only)
+npx cap add android
+
+# 3. Build .aab for Play Store
+npm run build:android
+# → android/app/build/outputs/bundle/release/app-release.aab
+```
+
+For signing setup, keystore generation, and full Play Console upload steps see [`android/GOOGLE_PLAY_README.md`](android/GOOGLE_PLAY_README.md).
+
+> **Note:** `output: 'export'` in `next.config.js` disables server-side API routes.
+> Deploy the web app to Vercel/Fly.io and set `NEXT_PUBLIC_API_BASE_URL` so the
+> Android app can reach the backend.
 
 ## Launch checklist
 

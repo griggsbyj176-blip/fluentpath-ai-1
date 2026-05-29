@@ -3,9 +3,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:android": "bash scripts/build-android.sh"
   },
   "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "^2.105.1",
     "@tailwindcss/postcss": "^4.2.4",

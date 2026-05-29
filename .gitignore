@@ -1,5 +1,16 @@
 node_modules
 .next
+out
 .env.local
 .env
 .vercel
+
+# Android signing — never commit these
+release.keystore
+*.keystore
+*.jks
+android/keystore.properties
+android/.gradle
+android/app/build
+android/build
+android/local.properties
